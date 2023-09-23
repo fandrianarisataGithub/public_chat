@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -39,6 +41,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
+
+    #[ORM\OneToMany(mappedBy: 'participant', targetEntity: Participation::class)]
+    private Collection $participations;
+
+    #[ORM\OneToMany(mappedBy: 'messageOwner', targetEntity: Message::class)]
+    private Collection $messages;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: FriendsDemand::class)]
+    private Collection $friendsDemands;
+
+    public function __construct()
+    {
+        $this->participations = new ArrayCollection();
+        $this->messages = new ArrayCollection();
+        $this->friendsDemands = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -149,6 +167,96 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUsername($username)
     {
         $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Participation>
+     */
+    public function getParticipations(): Collection
+    {
+        return $this->participations;
+    }
+
+    public function addParticipation(Participation $participation): static
+    {
+        if (!$this->participations->contains($participation)) {
+            $this->participations->add($participation);
+            $participation->setParticipant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParticipation(Participation $participation): static
+    {
+        if ($this->participations->removeElement($participation)) {
+            // set the owning side to null (unless already changed)
+            if ($participation->getParticipant() === $this) {
+                $participation->setParticipant(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Message>
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Message $message): static
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages->add($message);
+            $message->setMessageOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Message $message): static
+    {
+        if ($this->messages->removeElement($message)) {
+            // set the owning side to null (unless already changed)
+            if ($message->getMessageOwner() === $this) {
+                $message->setMessageOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, FriendsDemand>
+     */
+    public function getFriendsDemands(): Collection
+    {
+        return $this->friendsDemands;
+    }
+
+    public function addFriendsDemand(FriendsDemand $friendsDemand): static
+    {
+        if (!$this->friendsDemands->contains($friendsDemand)) {
+            $this->friendsDemands->add($friendsDemand);
+            $friendsDemand->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFriendsDemand(FriendsDemand $friendsDemand): static
+    {
+        if ($this->friendsDemands->removeElement($friendsDemand)) {
+            // set the owning side to null (unless already changed)
+            if ($friendsDemand->getUser() === $this) {
+                $friendsDemand->setUser(null);
+            }
+        }
 
         return $this;
     }
