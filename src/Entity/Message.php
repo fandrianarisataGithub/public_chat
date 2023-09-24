@@ -28,6 +28,8 @@ class Message
     #[ORM\ManyToOne(inversedBy: 'messages')]
     private ?Conversation $conversation = null;
 
+    private $isMyMessage;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -65,6 +67,26 @@ class Message
     public function setConversation(?Conversation $conversation): static
     {
         $this->conversation = $conversation;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of isMyMessage
+     */ 
+    public function getIsMyMessage()
+    {
+        return $this->isMyMessage;
+    }
+
+    /**
+     * Set the value of isMyMessage
+     *
+     * @return  self
+     */ 
+    public function setIsMyMessage($isMyMessage)
+    {
+        $this->isMyMessage = $isMyMessage;
 
         return $this;
     }
