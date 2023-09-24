@@ -48,14 +48,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'messageOwner', targetEntity: Message::class)]
     private Collection $messages;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: FriendsDemand::class)]
-    private Collection $friendsDemands;
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: DemandFriendFrom::class)]
+    private Collection $demandFriendFroms;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: DemandFriendFor::class)]
+    private Collection $demandFriendFors;
 
     public function __construct()
     {
         $this->participations = new ArrayCollection();
         $this->messages = new ArrayCollection();
-        $this->friendsDemands = new ArrayCollection();
+        $this->demandFriendFroms = new ArrayCollection();
+        $this->demandFriendFors = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -232,29 +236,59 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, FriendsDemand>
+     * @return Collection<int, DemandFriendFrom>
      */
-    public function getFriendsDemands(): Collection
+    public function getDemandFriendFroms(): Collection
     {
-        return $this->friendsDemands;
+        return $this->demandFriendFroms;
     }
 
-    public function addFriendsDemand(FriendsDemand $friendsDemand): static
+    public function addDemandFriendFrom(DemandFriendFrom $demandFriendFrom): static
     {
-        if (!$this->friendsDemands->contains($friendsDemand)) {
-            $this->friendsDemands->add($friendsDemand);
-            $friendsDemand->setUser($this);
+        if (!$this->demandFriendFroms->contains($demandFriendFrom)) {
+            $this->demandFriendFroms->add($demandFriendFrom);
+            $demandFriendFrom->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeFriendsDemand(FriendsDemand $friendsDemand): static
+    public function removeDemandFriendFrom(DemandFriendFrom $demandFriendFrom): static
     {
-        if ($this->friendsDemands->removeElement($friendsDemand)) {
+        if ($this->demandFriendFroms->removeElement($demandFriendFrom)) {
             // set the owning side to null (unless already changed)
-            if ($friendsDemand->getUser() === $this) {
-                $friendsDemand->setUser(null);
+            if ($demandFriendFrom->getUser() === $this) {
+                $demandFriendFrom->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DemandFriendFor>
+     */
+    public function getDemandFriendFors(): Collection
+    {
+        return $this->demandFriendFors;
+    }
+
+    public function addDemandFriendFor(DemandFriendFor $demandFriendFor): static
+    {
+        if (!$this->demandFriendFors->contains($demandFriendFor)) {
+            $this->demandFriendFors->add($demandFriendFor);
+            $demandFriendFor->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDemandFriendFor(DemandFriendFor $demandFriendFor): static
+    {
+        if ($this->demandFriendFors->removeElement($demandFriendFor)) {
+            // set the owning side to null (unless already changed)
+            if ($demandFriendFor->getUser() === $this) {
+                $demandFriendFor->setUser(null);
             }
         }
 
