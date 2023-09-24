@@ -35,7 +35,14 @@ class ConversationController extends AbstractController
         $this->repoConv = $repoConv;
     }
 
-    #[Route('/new', name: 'new', methods:['POST'])]
+    #[Route('/new', name: 'new', methods:['POST'])]    
+    /**
+     * Method new
+     *
+     * @param Request $request [explicite description]
+     *
+     * @return JsonResponse
+     */
     public function new(Request $request): JsonResponse
     {
         $currentUser = $this->getUser();
