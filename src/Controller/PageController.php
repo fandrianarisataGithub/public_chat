@@ -14,7 +14,7 @@ class PageController extends AbstractController
         // renvoyer vers le login si pas connecté
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        $response =  $this->render('index/index.html.twig', [
+        $response =  $this->render('page/index.html.twig', [
             'controller_name' => 'IndexController',
         ]);
 
