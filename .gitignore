@@ -1,4 +1,5 @@
 ###> symfony/framework-bundle ###
+/.vite
 /.env
 /.env.local.php
 /.env.*.local

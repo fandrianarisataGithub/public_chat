@@ -1,5 +1,13 @@
 <template lang="">
     <div>
-       <h1>Test vue kely</h1> 
+       <Login />
     </div>
 </template>
+<script>
+    import Login from './pages/security/Login.vue';
+    export default {
+        components : {
+            Login
+        }
+    }
+</script>
