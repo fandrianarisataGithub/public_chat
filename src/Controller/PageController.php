@@ -2,8 +2,6 @@
 
 namespace App\Controller;
 
-use Symfony\Component\Mercure\Update;
-use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,7 +13,12 @@ class PageController extends AbstractController
     {
         // renvoyer vers le login si pas connecté
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        return $this->render('page/index.html.twig');
+
+        $response =  $this->render('index/index.html.twig', [
+            'controller_name' => 'IndexController',
+        ]);
+
+        return $response;
     }
 
 }

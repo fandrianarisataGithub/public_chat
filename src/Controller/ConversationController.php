@@ -108,7 +108,11 @@ class ConversationController extends AbstractController
         $currentUser = $this->getUser();
         $conversations = $this->repoConv->getAllCurrentUserConversations($currentUser);
         //dd($conversations);
+        // l'url hub de mercure à partir du parameer de symfony
+
         $hubUrl = $this->getParameter('mercure.default_hub');
+
+        // en-tête de lien (Link) à la réponse HTTP
         $this->addLink($request, new Link('mercure', $hubUrl));
         return $this->json($conversations);
     }
