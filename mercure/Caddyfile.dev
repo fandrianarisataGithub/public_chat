@@ -3,7 +3,7 @@
 	{$GLOBAL_OPTIONS}
 }
 
-{$SERVER_NAME:localhost:3000}
+{$SERVER_NAME:localhost:3000, cady:80}
 
 log {
 	format filter {
@@ -33,7 +33,7 @@ route {
 		publish_origins *
 		demo
 		anonymous
-		subscriptions
+		subscriptions *
 		# Extra directives
 		{$MERCURE_EXTRA_DIRECTIVES}
 	}

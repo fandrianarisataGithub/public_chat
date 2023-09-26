@@ -20,6 +20,23 @@ class ParticipationRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Participation::class);
     }
+    public function getParticipationByConvByCurrentUser($conv, $currentUser)
+    {
+        $qb = $this->createQueryBuilder('p');
+        $qb->
+        where(
+            $qb->expr()->andX(
+                $qb->expr()->eq('p.conversations', ':conversationId'),
+                $qb->expr()->neq('p.participant', ':userId')
+            )
+        )
+        ->setParameters([
+            'conversationId' => $conv->getId(),
+            'userId' => $currentUser->getId()
+        ]);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
 
 //    /**
 //     * @return Participation[] Returns an array of Participation objects

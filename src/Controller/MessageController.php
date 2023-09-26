@@ -2,17 +2,22 @@
 
 namespace App\Controller;
 
-use App\Entity\Conversation;
 use App\Entity\Message;
-use App\Repository\ConversationRepository;
-use App\Repository\MessageRepository;
-use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Conversation;
 use PhpParser\Node\Stmt\TryCatch;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\UserRepository;
+use App\Repository\MessageRepository;
+use Symfony\Component\Mercure\Update;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\ConversationRepository;
+use App\Repository\ParticipationRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Mercure\HubInterface;
+use Symfony\Component\Mercure\PublisherInterface;
 
 #[Route('/profile/message', name: 'app_message.')]
 class MessageController extends AbstractController
@@ -22,17 +27,21 @@ class MessageController extends AbstractController
     private $em;
     private $repoUser;
     private $repoMessage;
+    private $repoParticipation;
+    private $publisher;
 
     public function __construct(
         EntityManagerInterface $em,
         UserRepository $repoUser,
         ConversationRepository $repoConv,
-        MessageRepository $repoMessage
+        MessageRepository $repoMessage,
+        ParticipationRepository $repoParticipation,
     )
     {
         $this->repoConv = $repoConv;
         $this->repoUser = $repoUser;
         $this->repoMessage = $repoMessage;
+        $this->repoParticipation = $repoParticipation;
         $this->em = $em;
     }
 
@@ -74,7 +83,7 @@ class MessageController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'newMessage', methods: ['POST'])]     
+    #[Route('/new/{id}', name: 'newMessage', methods: ['POST'])]     
     /**
      * Method newMessage
      *
@@ -83,21 +92,29 @@ class MessageController extends AbstractController
      *
      * @return void
      */
-    public function newMessage(Request $request, Conversation $conversation = null)
+    public function newMessage(Request $request, 
+        Conversation $conversation = null, 
+        SerializerInterface $serializer,
+        HubInterface $hub
+    )
     {
+        
         // si la conversation est null
         if(is_null($conversation)){
             throw new \Exception("La conversation est null", 1);
         }
-
+        
         //assure que l'user peut ajouter un message dans cette conv
 
-        $this->denyAccessUnlessGranted('CONV_ADD', $conversation);
+        //$this->denyAccessUnlessGranted('CONV_ADD', $conversation);
         $messageContent = $request->get('content');
 
         $message = new Message();
         $message->setContent($messageContent);
-        $message->setMessageOwner($this->getUser());
+        //$message->setMessageOwner($this->getUser()); // replace after test in postman
+        $usertTest = $this->repoUser->find(3);
+        $message->setMessageOwner($usertTest);
+        // fin
         $message->setIsMyMessage(true);
         $conversation->setLastMessage($message); 
         $conversation->addMessage($message);
@@ -113,6 +130,35 @@ class MessageController extends AbstractController
             $this->em->rollback();
             throw $th;
         }
+
+        /*$currentUser = $this->getUser();
+
+        $convParticipation = $this->repoParticipation->getParticipationByConvByCurrentUser(
+            $conversation,
+            $currentUser
+        );*/ // for test
+
+        $convParticipation = $this->repoParticipation->getParticipationByConvByCurrentUser(
+            $conversation,
+            $usertTest
+        );
+
+        //fin
+        $dataToUpdate = $serializer->serialize($message, 'json', [
+            'attributes' => ['id', 'content', 'createdAt', 'isMyMessage', 'conversation' => ['id']]
+        ]);
+
+        $update = new Update(
+            [
+                sprintf("/profile/conversation/%s", $conversation->getId()),
+                sprintf("/profile/conversation/%s", $convParticipation->getParticipant()->getUsername()),
+            ],
+            $dataToUpdate,
+            true,
+            sprintf("/profile/conversation/%s", $convParticipation->getParticipant()->getUsername())
+        );
+        //dd($update);
+        $hub->publish($update);
     
         return $this->json($message, Response::HTTP_CREATED, [], [
             'attributes' => self::SERIALIZE_DATA

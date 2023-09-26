@@ -105,8 +105,11 @@ class ConversationController extends AbstractController
     #[Route('/', name: 'getConversations', methods:['GET'])]
     public function getConversations(Request $request): JsonResponse 
     {
-        $currentUser = $this->getUser();
-        $conversations = $this->repoConv->getAllCurrentUserConversations($currentUser);
+        //$currentUser = $this->getUser();
+        // pour test
+        $usertTest = $this->repoUser->find(3);
+        // fin test
+        $conversations = $this->repoConv->getAllCurrentUserConversations($usertTest);
         //dd($conversations);
         // l'url hub de mercure à partir du parameer de symfony
 
