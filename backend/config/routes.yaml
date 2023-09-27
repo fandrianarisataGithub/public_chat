@@ -1,0 +1,8 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+app_auth:
+    resource: ../src/Controller/AuthController.php
+    type: annotation
+api_login_check:
+    path: /api/login_check
