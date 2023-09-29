@@ -56,6 +56,7 @@ class AuthController extends AbstractController
 
         return $this->json([
             'token' => $token,
+            'currentUserId' => $user->getId(),
             'error' => $error
         ]);
     }

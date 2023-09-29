@@ -1,0 +1,71 @@
+.layout-header{
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    background: linear-gradient(to right, $background-start, $background-end);
+    .custum-search-input{
+        background-color: transparent;
+        border: none;
+        border-bottom: 2px solid white;
+        border-radius: 0;
+        outline: none;
+        box-shadow: none;
+
+        &:focus{
+            border: none;
+            border-bottom: 2px solid $background-start;
+            color: white;
+        }
+    }
+    .custum-search-button{
+        border-color: black;
+        background-color: black;
+        color: white;
+        &:hover{
+            background-color:  $background-start;
+            border-color: $background-start;
+            color: white;
+        }
+    }
+    .nav-item{
+        a{
+            position: relative;
+            &:after {    
+                background: none repeat scroll 0 0 transparent;
+                bottom: 0;
+                content: "";
+                display: block;
+                height: 2px;
+                left: 50%;
+                position: absolute;
+                background: #fff;
+                transition: width 0.3s ease 0s, left 0.3s ease 0s;
+                width: 0;
+            }
+            &:hover{
+                &:after { 
+                    width: 100%; 
+                    left: 0; 
+                  }
+            }
+        }
+        &.active{
+            a{
+                &:after {    
+                    background: none repeat scroll 0 0 transparent;
+                    bottom: 0;
+                    content: "";
+                    display: block;
+                    height: 2px;
+                    left: 0;
+                    position: absolute;
+                    background: #fff;
+                    transition: width 0.3s ease 0s, left 0.3s ease 0s;
+                    width: 100%;
+                }
+            }
+        }
+    }
+}

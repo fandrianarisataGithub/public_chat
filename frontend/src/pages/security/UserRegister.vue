@@ -6,7 +6,7 @@
 					<h1>Welcom back</h1>
 				</header>
 				<section>
-					<div class="social-login">
+					<!-- <div class="social-login">
 						<button>
 							<img
 								src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
@@ -21,7 +21,7 @@
 								width="10"
 							/><span>Facebook</span>
 						</button>
-					</div>
+					</div> -->
 					<form @submit.prevent="validateForm" action="" class="login-form">
 						<div class="input-group">
 							<label for="username">Username</label>
@@ -59,7 +59,12 @@
                                 required
 							/>
 						</div>
-						<div class="input-group"><button type="submit" class="signup button-login">Save</button></div>
+						<div class="input-group for-buttons">
+                            <button class="signin button-login" type="submit">Sign up</button>
+                        </div>
+                        <div class="redirection mt-3">
+                            <router-link to="/login" class="button-login signup">Sign in</router-link>
+                        </div>
 					</form>
 				</section>
 			</div>

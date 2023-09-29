@@ -17,7 +17,7 @@ router.beforeEach((to, from, next) => {
     } else {
       console.log('page should be redirected');
       next({
-        path: '/api/login',
+        path: '/login',
         query: { redirect: to.fullPath },
       });
     }
