@@ -77,14 +77,23 @@
 						<a class="nav-link disabled">Disabled</a>
 					</li> -->
 				</ul>
-				<form class="d-flex" role="search">
+				<form class="d-flex search-form" role="search">
+                    <div v-if="resultSearch.length > 0 && searchQuery" class="response-search">
+                        <ul>
+                            <li v-for="(user, index) in resultSearch" :key="index">
+                                <a href="#" :user-id="user.id">{{ user.username }}</a>
+                            </li>
+                        </ul>
+                    </div>
 					<input
+                        v-model="searchQuery"
 						class="form-control me-2 custum-search-input"
 						type="search"
 						placeholder="Search"
 						aria-label="Search"
+                        @input="search"
 					/>
-					<button class="btn btn-outline-success custum-search-button" type="submit">
+					<button @click.prevent="search" class="btn btn-outline-success custum-search-button" type="submit">
 						Search
 					</button>
 				</form>
@@ -94,7 +103,18 @@
 </template>
 <script>
     import Cookies from 'js-cookie';
+    import {mapGetters} from 'vuex';
     export default {
+        data(){
+            return {
+                users : [],
+                resultSearch : [],
+                searchQuery : ''
+            }
+        },
+        computed: {
+            ...mapGetters['USERS']
+        },
         methods: {
             logout(){
                 const store = this.$store;
@@ -104,7 +124,18 @@
                 Cookies.remove('currentUserId');
                 // redierc to login 
                 this.$router.push('/login')
+            },
+            search() {
+                console.log(this.searchQuery)
+                this.resultSearch = this.users.filter(user => {
+                    return user.username.toLowerCase().includes(this.searchQuery.toLowerCase());
+                });
+                //*  */console.log(this.resultSearch)
             }
         },
+        async mounted(){
+            await this.$store.dispatch('GET_USERS')
+            this.users = this.$store.getters.USERS;
+        }
     }
 </script>

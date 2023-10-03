@@ -102,10 +102,13 @@ class ConversationController extends AbstractController
         return $this->json(['id' => $conv->getId()], Response::HTTP_CREATED, [], []);
     }
 
-    #[Route('/', name: 'getConversations', methods:['GET'])]
+    #[Route('/', name: 'getConversations', methods:['POST'])]
     public function getConversations(Request $request): JsonResponse 
     {
-        $currentUser = $this->getUser();
+        //dd($request);
+        $requestData = json_decode($request->getContent(), true);
+        //dd($request);
+        $currentUser = $this->repoUser->find($requestData['currentUserId']);
         // pour test
         //$usertTest = $this->repoUser->find(3);
         // fin test

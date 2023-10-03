@@ -112,5 +112,14 @@ class PageController extends AbstractController
 
         return $this->render('page/test.html.twig');
     }
+    #[Route('/test-query', name: 'example.query', methods:['GET'])]
+    public function exQuery(Request $request)
+    {
+        $user = $this->repoUser->find(3);
+    //dd($user);
+        $allFriends = $this->repoUser->getAllfriends($user);
+        dd($allFriends);
+        return $this->render('page/index.html.twig');
+    }
 
 }

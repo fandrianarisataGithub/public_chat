@@ -1,7 +1,7 @@
 <template lang="">
     <div>
         <Header v-show="isAuthenticated"/>
-        <router-view></router-view>
+        <router-view :key="$route.fullPath"></router-view>
     </div>
 </template>
 <script>
@@ -9,7 +9,7 @@
     export default {
         computed: {
             isAuthenticated() {
-                return this.$store.getters.isAuthenticated; 
+                return this.$store.getters.ISAUTHISUSERAUTHENTICATED; 
             }
         },
         components:{

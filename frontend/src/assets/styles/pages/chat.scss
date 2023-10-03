@@ -41,6 +41,18 @@
                             background-color: $background-end;
                             color: white;
                         }
+                        .last-message{
+                            width:600px;
+                            overflow: hidden;
+                            white-space: nowrap;
+                            margin-left: 5px;
+                            font-weight: bold;
+                            color: black;
+                        }
+                        .croq{
+                            font-weight: bold;
+                            color: black;
+                        }
                         &:hover{
                             color: $background-end;
                         }

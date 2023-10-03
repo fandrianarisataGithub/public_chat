@@ -2,276 +2,11 @@
 	<div class="page-chat">
         <nav class="custom-sidebarnav scrollbar">
             <ul>
-                <li>
-                    <a href="#" class="link">
-                        Fenitra
-                    </a>
-                    <a href="#" class="amis">
-                        <span class="icon">Amis</span>
-                    </a>
-                    <a href="#" class="connected isconnected">
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="link">
-                        Aricette <span class="message-number badge">2</span>
-                    </a>
-                    <a href="#" class="amis">
-                        <span class="icon">En attente</span>
-                    </a>
-                    <a href="#" class="connected isconnected">
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="link">
-                        Fans
-                    </a>
-                    <a href="#" class="amis">
-                        <span class="icon">Amis</span>
-                    </a>
-                    <a href="#" class="connected isconnected">
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="link">
-                        Fenitriniaina Andrianarisata
-                    </a>
-                    <a href="#" class="amis">
-                        <span class="icon">Amis</span>
-                    </a>
-                    <a href="#" class="connected isconnected">
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="link">
-                        Aricette
-                    </a>
-                    <a href="#" class="amis">
-                        <span class="icon">Se connecté</span>
-                    </a>
-                    <a href="#" class="connected isinvisible">
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="link">
-                        Fans
-                    </a>
-                    <a href="#" class="amis">
-                        <span class="icon">Amis</span>
-                    </a>
-                    <a href="#" class="connected isconnected">
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="link">
-                        Fenitra
-                    </a>
-                    <a href="#" class="amis">
-                        <span class="icon">En attente</span>
-                    </a>
-                    <a href="#" class="connected isconnected">
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="link">
-                        Aricette
-                    </a>
-                    <a href="#" class="amis">
-                        <span class="icon">Se connecté</span>
-                    </a>
-                    <a href="#" class="connected isdisconnected">
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="link">
-                        Fans
-                    </a>
-                    <a href="#" class="amis">
-                        <span class="icon">Amis</span>
-                    </a>
-                    <a href="#" class="connected isconnected">
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="link">
-                        Fenitra
-                    </a>
-                    <a href="#" class="amis">
-                        <span class="icon">Amis</span>
-                    </a>
-                    <a href="#" class="connected isconnected">
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="link">
-                        Aricette
-                    </a>
-                    <a href="#" class="amis">
-                        <span class="icon">Se connecté</span>
-                    </a>
-                    <a href="#" class="connected isconnected">
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="link">
-                        Fans
-                    </a>
-                    <a href="#" class="amis">
-                        <span class="icon">Amis</span>
-                    </a>
-                    <a href="#" class="connected isdisconnected">
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="link">
-                        Fenitra
-                    </a>
-                    <a href="#" class="amis">
-                        <span class="icon">En attente</span>
-                    </a>
-                    <a href="#" class="connected isconnected">
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="link">
-                        Aricette
-                    </a>
-                    <a href="#" class="amis">
-                        <span class="icon">Amis</span>
-                    </a>
-                    <a href="#" class="connected isconnected">
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="link">
-                        Fans
-                    </a>
-                    <a href="#" class="amis">
-                        <span class="icon">Amis</span>
-                    </a>
-                    <a href="#" class="connected isconnected">
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="link">
-                        Fenitra
-                    </a>
-                    <a href="#" class="amis">
-                        <span class="icon">Se connecté</span>
-                    </a>
-                    <a href="#" class="connected isinvisible">
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="link">
-                        Aricette
-                    </a>
-                    <a href="#" class="amis">
-                        <span class="icon">En attente</span>
-                    </a>
-                    <a href="#" class="connected isconnected">
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="link">
-                        Fans
-                    </a>
-                    <a href="#" class="amis">
-                        <span class="icon">Se connecté</span>
-                    </a>
-                    <a href="#" class="connected isconnected">
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="link">
-                        Fenitra
-                    </a>
-                    <a href="#" class="amis">
-                        <span class="icon">Amis</span>
-                    </a>
-                    <a href="#" class="connected isconnected">
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="link">
-                        Aricette
-                    </a>
-                    <a href="#" class="amis">
-                        <span class="icon">Se connecté</span>
-                    </a>
-                    <a href="#" class="connected isdisconnected">
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="link">
-                        Fans
-                    </a>
-                    <a href="#" class="amis">
-                        <span class="icon">En attente</span>
-                    </a>
-                    <a href="#" class="connected isconnected">
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="link">
-                        Fenitra
-                    </a>
-                    <a href="#" class="amis">
-                        <span class="icon">Se connecté</span>
-                    </a>
-                    <a href="#" class="connected isconnected">
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="link">
-                        Aricette
-                    </a>
-                    <a href="#" class="amis">
-                        <span class="icon">Amis</span>
-                    </a>
-                    <a href="#" class="connected isconnected">
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="link">
-                        Fans
-                    </a>
-                    <a href="#" class="amis">
-                        <span class="icon">Se connecté</span>
-                    </a>
-                    <a href="#" class="connected isinvisible">
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="link">
-                        Fenitra
-                    </a>
-                    <a href="#" class="amis">
-                        <span class="icon">Amis</span>
-                    </a>
-                    <a href="#" class="connected isconnected">
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="link">
-                        Aricette
-                    </a>
-                    <a href="#" class="amis">
-                        <span class="icon">Se connecté</span>
-                    </a>
-                    <a href="#" class="connected isdisconnected">
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="link">
-                        Fans
-                    </a>
-                    <a href="#" class="amis">
-                        <span class="icon">Amis</span>
-                    </a>
-                    <a href="#" class="connected isconnected">
-                    </a>
-                </li>
+                <Friend 
+                    v-for="(conversation, index) in conversations"
+                    :key="index"
+                    :friendData = "conversation"
+                />
             </ul>
         </nav>
         <div class="messages">
@@ -328,7 +63,26 @@
 </template>
 <script>
     import Cookies from 'js-cookie';
+    import Friend from '../components/bloc/Friend.vue';
+    import {mapGetters} from 'vuex';
     export default {
+        data(){
+            return {
+                conversations : [],
+                users : []
+            }
+        },
+        components:{
+            Friend
+        },
+        computed : {
+            ...mapGetters['CONVERSATIONS']
+        },
+        async mounted() {
+            await this.$store.dispatch('GET_CONVERSATIONS');
+            this.conversations = this.$store.getters.CONVERSATIONS; 
+            //console.log(this.conversations)        
+        },
         created() {
             const authToken = Cookies.get('authToken');
             const currentUserId = Cookies.get('currentUserId');

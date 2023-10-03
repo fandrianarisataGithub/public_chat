@@ -68,8 +68,8 @@
     export default {
         name : "Login",
         computed: {
-            isAuthenticated() {
-                return this.$store.getters.isAuthenticated; 
+            isThisUserAuthenticated() {
+                return this.$store.getters.ISAUTHISUSERAUTHENTICATED; 
             }
         },
         data(){
@@ -92,8 +92,7 @@
             if(authToken && currentUserId){
                 store.commit('change', true);
             }
-            console.log('user connecté: ' + this.isAuthenticated);
-            if(this.$store.getters.isAuthenticated){
+            if(this.$store.getters.ISAUTHISUSERAUTHENTICATED){
                 // redirection to the homepage
                 this.$router.push('/')
             }
@@ -112,10 +111,11 @@
                     //console.log(data)
                     if(data.token !== null && data.error === null){
                         Cookies.set('authToken', data.token, {expires: 7});
-                        Cookies.set('currentUserId', data.userId, { expires: 7 });
+                        Cookies.set('currentUserId', data.currentUserId, { expires: 7 });
 
                         this.$store.commit('change', true);
-                        console.log('user authenticated successfully' + this.isAuthenticated);
+                        console.log('user authenticated successfully' + this.isThisUserAuthenticated);
+                        this.$router.push('/')
                     }else{
                         this.isError = true;
                         this.errorMessage = data

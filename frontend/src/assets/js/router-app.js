@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import routes from './routes/route.js';
-import  createStore from './stores/authentication-store.js';
+import  store from './stores/index';
 
 // Utilisez le routeur Vue Router 4
 const router = createRouter({
@@ -11,8 +11,8 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     console.log('routed authentication');
-    if (createStore.getters.isAuthenticated !== false) {
-      console.log('user authenticated: ' + createStore.getters.isAuthenticated);
+    if (store.getters.ISAUTHISUSERAUTHENTICATED !== false) {
+      console.log('user authenticated: ' + store.getters.ISAUTHISUSERAUTHENTICATED);
       next();
     } else {
       console.log('page should be redirected');

@@ -9,7 +9,6 @@
         created() {
             const authToken = Cookies.get('authToken');
             const currentUserId = Cookies.get('currentUserId');
-        
         },  
     }
 </script>

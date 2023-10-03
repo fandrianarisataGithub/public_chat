@@ -5,6 +5,48 @@
     top: 0;
     left: 0;
     background: linear-gradient(to right, $background-start, $background-end);
+    .search-form{
+        position: relative;
+        .response-search{
+            position: absolute;
+            left: 0;
+            width: 100%;
+            max-height: 300px;
+            overflow-y: scroll;
+            margin-top: 40px;
+            background-color: black;
+            color: white;
+            ul{
+                list-style: none;
+                padding: 0;
+                margin-top: 0;
+                li{
+                    height: 35px;
+                    &:not(:first-child){
+                        border-top: 1px solid rgba(255,255,255,0.3);
+                    }
+                    a{
+                        display: flex;
+                        align-items: center;
+                        justify-content: flex-start;
+                        padding-left: 25px;
+                        font-size: 16px;
+                        line-height: 20px;
+                        height: 100%;
+                        text-decoration: none;
+                        color: white;
+                        &:hover{
+                            color: lightblue;
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+    .navbar-brand{
+        padding-left: 25px;
+    }
     .custum-search-input{
         background-color: transparent;
         border: none;

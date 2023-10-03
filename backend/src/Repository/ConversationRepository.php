@@ -60,7 +60,9 @@ class ConversationRepository extends ServiceEntityRepository
                 otherUser.username as otherUserUsernme',
                 'c.id as convId',
                 'lm.content',
-                'lm.createdAt'
+                'lm.createdAt',
+                'dfor.status as demand_status',
+                'dfrom.id as dfrom_id'
             )
             ->innerJoin(
                 'c.participations', 
@@ -77,7 +79,15 @@ class ConversationRepository extends ServiceEntityRepository
             ->leftJoin('c.lastMessage', 'lm')
             ->innerJoin('otherUserParticipation.participant', 'otherUser')
             ->innerJoin('myParticipation.participant', 'me')
-            ->where('me.id = :currentUserId')
+            ->innerJoin('otherUser.demandFriendFroms', 'dfrom')
+            ->innerJoin('dfrom.demandFriendFors', 'dfor')
+            ->where(
+                $qb->expr()->eq(
+                    'dfor.user',
+                    ':currentUserId'
+                )
+            )
+            ->andwhere('me.id = :currentUserId')
             ->setParameters([
                 'currentUserId' => $currentUser->getId(),
             ])

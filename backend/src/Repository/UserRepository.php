@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -28,6 +29,31 @@ class UserRepository extends ServiceEntityRepository
            ->getQuery()
            ->getOneOrNullResult()
        ;
+    }
+    public function getAllfriends($user)
+    {
+        $qb = $this->createQueryBuilder('u');
+
+        $qb
+            ->select('u.id as amis_id', 'u.username as username', 'dfrom.status as friend_status')
+            ->innerJoin('u.demandFriendFroms', 'dfrom')
+            ->where(
+                $qb->expr()->neq('u.id', ':myId')
+            )
+            ->setParameter('myId', $user->getId())
+            ->orderBy('u.id', 'ASC')
+        ;
+        return $qb->getQuery()->getResult();
+    }
+    public function getAllUsers($currentUser)
+    {
+        $qb = $this->createQueryBuilder('u');
+
+        $qb
+            ->select('u.id', 'u.username as username')
+            ->orderBy('u.id', 'ASC')
+        ;
+        return $qb->getQuery()->getResult();
     }
 
 //    /**

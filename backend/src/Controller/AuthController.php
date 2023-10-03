@@ -53,7 +53,7 @@ class AuthController extends AbstractController
             ]);
         }
         $token = $JWTManager->create($user);
-
+        
         return $this->json([
             'token' => $token,
             'currentUserId' => $user->getId(),
