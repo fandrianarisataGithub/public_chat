@@ -48,6 +48,23 @@ class PageController extends AbstractController
         $this->repoParticipation = $repoParticipation;
         $this->em = $em;
     }
+
+    #[Route('/fe', name: 'app_fe')]
+    public function app_fe()
+    {
+        $minAge = 50;
+        // encode url for the request
+        $encodedMinage = urlencode($minAge);
+        $url = 'https://coderbyte.com/api/challenges/json/age-counting?key=IAfpK';
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        $data = curl_exec($ch);
+        curl_close($ch);
+
+        dd(json_decode($data, true));
+
+    }
     
     #[Route('/', name: 'app_home')]
     public function index(): Response

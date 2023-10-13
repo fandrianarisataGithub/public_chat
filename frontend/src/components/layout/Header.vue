@@ -18,7 +18,8 @@
 					<li class="nav-item active">
                         <router-link 
                             to="/"
-                            class="nav-link fc-white active" 
+                            class="nav-link fc-white" 
+                            :class="{ active: $store.getters.IS_ACTIVE_MENU('/') }"
                             aria-current="page"
                         >
                             Home
@@ -26,9 +27,10 @@
 					</li>
 					<li class="nav-item">
 						<router-link 
-                            to="/chat"
-                            class="nav-link fc-white active" 
+                            :to="{name : 'chat_blank'}"
+                            class="nav-link fc-white" 
                             aria-current="page"
+                            :class="{ active: $store.getters.IS_ACTIVE_MENU('/chat') }"
                         >
                             Chat
                         </router-link>
@@ -36,8 +38,9 @@
                     <li class="nav-item">
 						<router-link 
                             to="/inbox"
-                            class="nav-link fc-white active" 
+                            class="nav-link fc-white " 
                             aria-current="page"
+                            :class="{ active: $store.getters.IS_ACTIVE_MENU('/inbox') }"
                         >
                             Inbox
                         </router-link>
@@ -126,7 +129,7 @@
                 this.$router.push('/login')
             },
             search() {
-                console.log(this.searchQuery)
+                //console.log(this.searchQuery)
                 this.resultSearch = this.users.filter(user => {
                     return user.username.toLowerCase().includes(this.searchQuery.toLowerCase());
                 });
@@ -134,7 +137,7 @@
             }
         },
         async mounted(){
-            await this.$store.dispatch('GET_USERS')
+            await this.$store.dispatch('GET_OTHER_USERS')
             this.users = this.$store.getters.USERS;
         }
     }

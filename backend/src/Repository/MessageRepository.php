@@ -20,6 +20,43 @@ class MessageRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Message::class);
     }
+    public function getMessageInConv($conv)
+    {
+        return $this->createQueryBuilder('m')
+            
+            ->leftJoin('m.messageOwner', 'user')
+            ->leftJoin('m.conversation', 'conversation')
+            ->andWhere('conversation.id = :convId')
+            ->setParameter('convId', $conv->getId())
+            ->getQuery()
+            ->getResult()
+       ;
+    }
+    public function getConversationBetweenThisUserAndMe($currentUser, $otherUser)
+    {
+        $qb = $this->createQueryBuilder('m');
+        $qb 
+            ->select('conversation.id as conversationId')
+            ->innerJoin('m.messageOwner', 'user')
+            ->innerJoin('m.conversation', 'conversation')
+            ->innerJoin('conversation.participations', 'participation')
+            ->where(
+                $qb->expr()->orX(
+                    $qb->expr()->andX('user.id = :myId', 'participation.participant = :otherUserId')
+                    ,
+                    $qb->expr()->andX('user.id = :otherUserId', 'participation.participant = :myId')
+                )
+            )
+            ->setParameters(
+                [
+                    'otherUserId' => $otherUser->getId(),
+                    'myId' => $currentUser->getId()
+                ]
+            )
+            ->groupBy('conversation.id')
+        ;
+        return $qb->getQuery()->getOneOrNullResult();
+    }
 
 //    /**
 //     * @return Message[] Returns an array of Message objects

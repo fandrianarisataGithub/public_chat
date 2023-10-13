@@ -45,7 +45,7 @@ class MessageController extends AbstractController
         $this->em = $em;
     }
 
-    #[Route('/{id}', name: 'getMessages', methods: ['GET'])]    
+    #[Route('/{id}', name: 'getMessages', methods: ['POST'])]    
     /**
      * Method getAllMessagesInConversation
      *
@@ -54,23 +54,15 @@ class MessageController extends AbstractController
      *
      * @return Response
      */
-    public function getAllMessagesInConversation(Request $request, Conversation $conversation): Response
+    public function getAllMessagesInConversation(Request $request, Conversation $conv): Response
     {
-        // bloquee les accèss de cette fonctionnalité si c'est pas le bon user propiétaire du compte
-        // ie si le this->getUser() n'est pas un participant à cette conversation 
-        $this->denyAccessUnlessGranted('CONV_VIEW', $conversation);
-
-        $messagesInConv = $this->repoMessage->findBy([
-            'conversation' => $conversation
-        ]);
-
-        //dd($messagesInConv);
-        // on différencie les messages (mes mess et les mess de l'autre user) 
-        // on a crée un attr isMyMessage dans l'entity Message
-        // set if the message is mine or not
-
-        foreach($messagesInConv as $message){
-            if($message->getMessageOwner()->getId() === $this->getUser()->getId()){
+    
+        $requestData = json_decode($request->getContent(), true);
+        $messInconv = $this->repoMessage->getMessageInConv($conv);
+        //dd($messInconv);
+        $currentUser = $this->repoUser->find($requestData['currentUserId']);
+        foreach($messInconv as $message){
+            if($message->getMessageOwner()->getId() === $currentUser->getId()){
                 $message->setIsMyMessage(true);
             }else{
                 $message->setIsMyMessage(false);
@@ -78,8 +70,8 @@ class MessageController extends AbstractController
         }
         //dd($messagesInConv);
         
-        return $this->json($messagesInConv, Response::HTTP_OK, [], [
-            'attributes' => self::SERIALIZE_DATA
+        return $this->json($messInconv, Response::HTTP_OK, [], [
+            'attributes' => ['id','messageOwner' => ['id', 'username'], 'content', 'createdAt', 'isMyMessage', 'conversation' => ['id']]
         ]);
     }
 
@@ -98,7 +90,13 @@ class MessageController extends AbstractController
         HubInterface $hub
     )
     {
-        
+        if(is_null($conversation)){
+            throw new \Exception("Error Processing Request", 1);
+            
+        }
+        $requestData = json_decode($request->getContent(), true);
+        $currentUser = $this->repoUser->find($requestData['currentUserId']);
+        $messageContent = $requestData['content'];
         // si la conversation est null
         if(is_null($conversation)){
             throw new \Exception("La conversation est null", 1);
@@ -107,15 +105,10 @@ class MessageController extends AbstractController
         //assure que l'user peut ajouter un message dans cette conv
 
         //$this->denyAccessUnlessGranted('CONV_ADD', $conversation);
-        $messageContent = $request->get('content');
-
+        
         $message = new Message();
         $message->setContent($messageContent);
-        $message->setMessageOwner($this->getUser()); // replace after test in postman
-        //$usertTest = $this->repoUser->find(3);
-        //$message->setMessageOwner($usertTest);
-        // fin
-        $message->setIsMyMessage(true);
+        $message->setMessageOwner($currentUser); 
         $conversation->setLastMessage($message); 
         $conversation->addMessage($message);
 
@@ -131,8 +124,6 @@ class MessageController extends AbstractController
             throw $th;
         }
 
-        $currentUser = $this->getUser();
-
         $convParticipation = $this->repoParticipation->getParticipationByConvByCurrentUser(
             $conversation,
             $currentUser
@@ -146,7 +137,7 @@ class MessageController extends AbstractController
 
         //fin
         $dataToUpdate = $serializer->serialize($message, 'json', [
-            'attributes' => ['id', 'content', 'createdAt', 'isMyMessage', 'conversation' => ['id']]
+            'attributes' => ['id', 'content', 'messageOwner' => ['id', 'username'], 'createdAt', 'isMyMessage', 'conversation' => ['id']]
         ]);
 
         $update = new Update(
@@ -162,7 +153,7 @@ class MessageController extends AbstractController
         $hub->publish($update);
     
         return $this->json($message, Response::HTTP_CREATED, [], [
-            'attributes' => self::SERIALIZE_DATA
+            'attributes' => ['id', 'content', 'messageOwner' => ['id', 'username'], 'createdAt', 'isMyMessage', 'conversation' => ['id']]
         ]);
     }
 }

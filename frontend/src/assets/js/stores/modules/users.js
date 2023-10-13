@@ -13,7 +13,7 @@ const userStore = {
         USERS  : (state) => state.users
     },
     actions : {
-         async GET_USERS({commit}){
+         async GET_OTHER_USERS({commit}){
             // request with fetch
             try {
                 const currentUserId = Cookies.get('currentUserId');

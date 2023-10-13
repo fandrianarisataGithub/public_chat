@@ -1,7 +1,7 @@
 <template lang="">
     <div>
         <Header v-show="isAuthenticated"/>
-        <router-view :key="$route.fullPath"></router-view>
+        <router-view :key="$route.fullPath" name="a"></router-view>
     </div>
 </template>
 <script>
@@ -14,6 +14,6 @@
         },
         components:{
             Header
-        }
+        },
     }
 </script>

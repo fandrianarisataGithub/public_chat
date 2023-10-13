@@ -9,6 +9,7 @@ use App\Repository\UserRepository;
 use Symfony\Component\WebLink\Link;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ConversationRepository;
+use App\Repository\MessageRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,16 +24,19 @@ class ConversationController extends AbstractController
     private $repoUser;
     private $repoConv;
     private $em;
+    private $repoMessage;
 
     public function __construct(
         EntityManagerInterface $em,
         UserRepository $repoUser,
-        ConversationRepository $repoConv
+        ConversationRepository $repoConv,
+        MessageRepository $repoMessage
     )
     {
         $this->em = $em;
         $this->repoUser = $repoUser;
         $this->repoConv = $repoConv;
+        $this->repoMessage = $repoMessage;
     }
 
     #[Route('/new', name: 'new', methods:['POST'])]    
@@ -102,17 +106,24 @@ class ConversationController extends AbstractController
         return $this->json(['id' => $conv->getId()], Response::HTTP_CREATED, [], []);
     }
 
-    #[Route('/', name: 'getConversations', methods:['POST'])]
-    public function getConversations(Request $request): JsonResponse 
+    #[Route('/{id}', name: 'getConversations', methods:['POST'])]
+    public function getConversations(Request $request, User $otherUser): JsonResponse 
     {
+        if(is_null($otherUser)){
+            throw new \Exception("Other user is nullt", 1);
+            
+        }
         //dd($request);
         $requestData = json_decode($request->getContent(), true);
         //dd($request);
         $currentUser = $this->repoUser->find($requestData['currentUserId']);
-        // pour test
-        //$usertTest = $this->repoUser->find(3);
-        // fin test
-        $conversations = $this->repoConv->getAllCurrentUserConversations($currentUser);
+
+        if($otherUser === $currentUser){
+            throw new \Exception("Pas de conv pour toi vers toi", 1);
+            
+        }
+       
+        $conversation = $this->repoMessage->getConversationBetweenThisUserAndMe($currentUser, $otherUser);
         //dd($conversations);
         // l'url hub de mercure à partir du parameer de symfony
 
@@ -120,6 +131,18 @@ class ConversationController extends AbstractController
 
         // en-tête de lien (Link) à la réponse HTTP
         $this->addLink($request, new Link('mercure', $hubUrl));
-        return $this->json($conversations);
+
+        return $this->json($conversation);
+    }
+    #[Route('/{id}', name: 'getConversationsxxx', methods: ['GET'])] // pour test
+    public function getAllMessagesInConversationddd(User $otherUser)
+    {
+        $currentUser = $this->repoUser->find(3);
+        if($otherUser === $currentUser){
+            throw new \Exception("Pas de conv pour toi vers toi", 1);
+            
+        }
+        $conversation = $this->repoMessage->getConversationBetweenThisUserAndMe($currentUser, $otherUser);
+        dd($conversation);
     }
 }

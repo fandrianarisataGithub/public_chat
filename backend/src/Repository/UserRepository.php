@@ -51,6 +51,10 @@ class UserRepository extends ServiceEntityRepository
 
         $qb
             ->select('u.id', 'u.username as username')
+            ->where(
+                $qb->expr()->neq('u.id', ':myId')
+            )
+            ->setParameter('myId', $currentUser->getId())
             ->orderBy('u.id', 'ASC')
         ;
         return $qb->getQuery()->getResult();

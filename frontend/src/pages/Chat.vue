@@ -3,67 +3,19 @@
         <nav class="custom-sidebarnav scrollbar">
             <ul>
                 <Friend 
-                    v-for="(conversation, index) in conversations"
+                    v-for="(user, index) in users"
                     :key="index"
-                    :friendData = "conversation"
+                    :friendData = "user"
                 />
             </ul>
         </nav>
-        <div class="messages">
-            <div class="discussion">
-                <div class="message-left">
-                    <div class="unite-msg">
-                        <div class="avatar"><span class="fa fa-user"></span></div>
-                        <div class="message-container">
-                            <div class="name-datetime">
-                                <div class="name">Son nom</div>
-                                <div class="datetime">14:12</div>
-                            </div>
-                            <div class="message-content">
-                                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptate, cupiditate.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="unite-msg">
-                        <div class="avatar"><span class="fa fa-user"></span></div>
-                        <div class="message-container">
-                            <div class="name-datetime">
-                                <div class="name">Son nom</div>
-                                <div class="datetime">14:12</div>
-                            </div>
-                            <div class="message-content">
-                                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptate, cupiditate.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="message-right">
-                    <div class="unite-msg">
-                        <div class="message-container">
-                            <div class="name-datetime">
-                                <div class="datetime">14:12</div>
-                            </div>
-                            <div class="message-content">
-                                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptate, cupiditate.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="input-message">
-                <form action="">
-                    <input type="text">
-                    <button>
-                        <span class="fa fa-send-o"></span>
-                    </button>
-                </form>
-            </div>
-        </div>
+        <router-view :key="$route.fullPath" name="b"></router-view>
     </div>
 </template>
 <script>
     import Cookies from 'js-cookie';
     import Friend from '../components/bloc/Friend.vue';
+    import ChatContent from '../components/bloc/ChatContent.vue';
     import {mapGetters} from 'vuex';
     export default {
         data(){
@@ -73,14 +25,15 @@
             }
         },
         components:{
-            Friend
+            Friend,
+            ChatContent
         },
         computed : {
-            ...mapGetters['CONVERSATIONS']
+            ...mapGetters['USERS'] // les destinataires
         },
         async mounted() {
-            await this.$store.dispatch('GET_CONVERSATIONS');
-            this.conversations = this.$store.getters.CONVERSATIONS; 
+            await this.$store.dispatch('GET_OTHER_USERS');
+            this.users = this.$store.getters.USERS; 
             //console.log(this.conversations)        
         },
         created() {
